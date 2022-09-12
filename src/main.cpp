@@ -21,15 +21,15 @@ FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
-String parentPath = "LCB-001/";
+String parentPath = "LCB-002/";
 String childPath[12] = {"b1", "b2", "b3", "b4", "bob", "h1", "h2", "h3", "h4", "nb", "np", "push"};
 
 // Servo Stuff //
 Servo srv1;
 Servo srv2;
 
-int srv1pin = 23;
-int srv2pin = 18;
+int srv1pin = 32;
+int srv2pin = 23;
 
 // Wifi Stuff //
 WiFiManager manager;
@@ -167,12 +167,12 @@ void streamTimeoutCallback(bool timeout)
 }
 
 void headBob(int he1, int he2, int he3, int he4){
-  for (int i = 1; i < 90; i += 1) {
+  for (int i = 40; i > 1; i -= 1) {
     srv1.write(i);
     delay(he1);
   }
   delay(he2);
-  for (int i = 90; i > 1; i -= 1) {
+  for (int i = 1; i < 40; i += 1) {
     srv1.write(i);
     delay(he3);
   }
@@ -180,12 +180,12 @@ void headBob(int he1, int he2, int he3, int he4){
 }
 
 void pushUp(int p1, int p2, int p3, int p4){
-  for (int i = 1; i < 90; i += 1) {
+  for (int i = 1; i < 40; i += 1) {
     srv2.write(i);
     delay(p1);
   }
   delay(p2);
-  for (int i = 90; i > 1; i -= 1) {
+  for (int i = 40; i > 1; i -= 1) {
     srv2.write(i);
     delay(p3);
   }
@@ -213,6 +213,7 @@ void core2Task(void * pvParameters){
 }
 
 void setup() {
+
   // put your setup code here, to run once:
   WiFi.mode(WIFI_STA);
   Serial.begin(115200);
@@ -224,8 +225,8 @@ void setup() {
   }else{
     Serial.println(F("Connected"));
   }
-  srv1.attach(srv1pin);
-  srv2.attach(srv2pin);  
+  srv1.attach(srv2pin);
+  srv2.attach(srv1pin);  
 
   config.api_key = API_KEY;
   auth.user.email = USER_EMAIL;
@@ -235,6 +236,7 @@ void setup() {
   config.token_status_callback = tokenStatusCallback;
   Firebase.reconnectWiFi(true);  
   Firebase.begin(&config, &auth);
+  delay(1000);
    
   if (Firebase.ready())
   {
