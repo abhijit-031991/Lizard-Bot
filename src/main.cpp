@@ -21,7 +21,7 @@ FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
-String parentPath = "LCB-002/";
+String parentPath = "LCB-003/";
 String childPath[12] = {"b1", "b2", "b3", "b4", "bob", "h1", "h2", "h3", "h4", "nb", "np", "push"};
 
 // Servo Stuff //
@@ -242,7 +242,7 @@ void setup() {
   {
     FirebaseJson json;
     json.add("Online", true);
-    Serial.printf("Set json... %s\n\n", Firebase.RTDB.updateNode(&fbdo, "LCB-001", &json) ? "ok" : fbdo.errorReason().c_str());
+    Serial.printf("Set json... %s\n\n", Firebase.RTDB.updateNode(&fbdo, "LCB-003", &json) ? "ok" : fbdo.errorReason().c_str());
   }
   if (!Firebase.RTDB.beginMultiPathStream(&stream, parentPath)){
     Serial.printf("sream begin error, %s\n\n", stream.errorReason().c_str());
